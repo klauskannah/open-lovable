@@ -2749,34 +2749,34 @@ Tip: I automatically detect and install npm packages from your code imports (lik
           // === NORMAL CLONE MODE ===
           // Check if we have pre-scraped markdown content from search results
           const storedMarkdown = sessionStorage.getItem('siteMarkdown');
-        if (storedMarkdown) {
-          // Use the pre-scraped content
-          scrapeData = {
-            success: true,
-            content: storedMarkdown,
-            title: new URL(url).hostname,
-            source: 'search-result'
-          };
-          sessionStorage.removeItem('siteMarkdown'); // Clear after use
-          addChatMessage('Using cached content from search results...', 'system');
-        } else {
-          // Perform fresh scraping
-          const scrapeResponse = await fetch('/api/scrape-url-enhanced', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ url })
-          });
-          
-          if (!scrapeResponse.ok) {
-            throw new Error('Failed to scrape website');
+          if (storedMarkdown) {
+            // Use the pre-scraped content
+            scrapeData = {
+              success: true,
+              content: storedMarkdown,
+              title: new URL(url).hostname,
+              source: 'search-result'
+            };
+            sessionStorage.removeItem('siteMarkdown'); // Clear after use
+            addChatMessage('Using cached content from search results...', 'system');
+          } else {
+            // Perform fresh scraping using the local scraper by default
+            const scrapeResponse = await fetch('/api/scrape-url-local', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ url })
+            });
+            
+            if (!scrapeResponse.ok) {
+              throw new Error('Failed to scrape website');
+            }
+            
+            scrapeData = await scrapeResponse.json() as ScrapeData;
+            
+            if (!scrapeData.success) {
+              throw new Error(scrapeData.error || 'Failed to scrape website');
+            }
           }
-          
-          scrapeData = await scrapeResponse.json() as ScrapeData;
-          
-          if (!scrapeData.success) {
-            throw new Error(scrapeData.error || 'Failed to scrape website');
-          }
-        }
         }
 
         setUrlStatus(brandExtensionMode ? ['Brand styles extracted!', 'Building your component...'] : ['Website scraped successfully!', 'Generating React app...']);

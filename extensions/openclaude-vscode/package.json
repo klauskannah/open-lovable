@@ -1,0 +1,54 @@
+{
+  "name": "openclaude-vscode",
+  "displayName": "OpenClaude (local)",
+  "description": "Simple integration to send file contents to a local OpenClaude HTTP endpoint and apply edits.",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "activationEvents": [
+    "onCommand:openclaude.suggestEdits"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "openclaude.suggestEdits",
+        "title": "OpenClaude: Suggest Edits"
+      }
+    ],
+    "configuration": {
+      "title": "OpenClaude",
+      "properties": {
+        "openclaude.endpoint": {
+          "type": "string",
+          "default": "http://localhost:8080/generate",
+          "description": "HTTP endpoint URL for your local OpenClaude server"
+        },
+        "openclaude.instruction": {
+          "type": "string",
+          "default": "You are an expert code assistant. Return the full new file content as plain text.",
+          "description": "System instruction/preprompt sent to the model before the file contents"
+        },
+        "openclaude.authToken": {
+          "type": "string",
+          "default": "",
+          "description": "Optional Bearer token for authentication (or use OPENCLAUDE_AUTH_TOKEN env var)"
+        }
+      }
+    }
+  },
+  "main": "./out/extension.js",
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "typescript": "^4.9.5",
+    "@types/node": "^18.0.0",
+    "@types/vscode": "^1.60.0",
+    "vscode": "^1.1.37"
+  },
+  "dependencies": {}
+}
