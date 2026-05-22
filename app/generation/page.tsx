@@ -552,7 +552,14 @@ function AISandboxPage() {
       });
       
       const data = await response.json();
+      console.log('[createSandbox] Response status:', response.status);
       console.log('[createSandbox] Response data:', data);
+      
+      if (!response.ok) {
+        const errorMsg = data?.error || data?.details || `HTTP ${response.status}`;
+        console.error('[createSandbox] API error:', errorMsg);
+        throw new Error(`Sandbox API error: ${errorMsg}`);
+      }
       
       if (data.success) {
         sandboxCreationRef.current = false; // Reset the ref on success
