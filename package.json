@@ -10,7 +10,8 @@
     "lint": "next lint",
     "test:api": "node tests/api-endpoints.test.js",
     "test:code": "node tests/code-execution.test.js",
-    "test:all": "npm run test:integration && npm run test:api && npm run test:code"
+    "test:all": "npm run test:integration && npm run test:api && npm run test:code",
+    "openclaude:apply": "node tools/openclaude/cli.js"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^2.0.1",
@@ -21,6 +22,7 @@
     "@e2b/code-interpreter": "^2.0.0",
     "@mendable/firecrawl-js": "^4.3.3",
     "@radix-ui/react-accordion": "^1.2.12",
+    "node-html-parser": "^7.1.0",
     "@radix-ui/react-alert-dialog": "^1.1.15",
     "@radix-ui/react-aspect-ratio": "^1.1.7",
     "@radix-ui/react-avatar": "^1.1.10",
